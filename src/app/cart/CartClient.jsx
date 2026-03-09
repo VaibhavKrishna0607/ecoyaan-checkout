@@ -359,7 +359,7 @@ export default function CartClient({ initialCartData }) {
 
         <div className="lg:w-72 xl:w-80 hidden lg:block">
           <div className="sticky top-20">
-            <SummaryPanel />
+            {SummaryPanel()}
           </div>
         </div>
       </div>
