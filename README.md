@@ -71,7 +71,7 @@ src/
 
 ## Workflow
 
-![Checkout Flow Diagram](./Workflow.png)
+![Checkout Flow Diagram](./docs/Workflow.png)
 
 ---
 
