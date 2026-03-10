@@ -31,8 +31,8 @@ export default function OrderSuccessPage() {
   const orderId = useMemo(() => `ECO-${Math.floor(100000 + Math.random() * 900000)}`, []);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
-      <div className="bg-[#f7fdf9] rounded-2xl border border-[#d8e8e0] shadow-md p-5 lg:p-8">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-4">
+      <div className="bg-[#f6faf6] rounded-2xl border border-[#d8e8e0] shadow-md p-4 lg:p-6">
       {/* Success Banner */}
       <div className="text-center mb-6 bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-8">
         <div className="w-20 h-20 bg-[#d8f3dc] rounded-full flex items-center justify-center mx-auto mb-4 animate-pop">

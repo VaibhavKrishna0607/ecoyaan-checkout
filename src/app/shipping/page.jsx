@@ -127,8 +127,8 @@ export default function ShippingPage() {
 
   return (
     <>
-    <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-8 pb-28">
-      <div className="bg-[#f7fdf9] rounded-2xl border border-[#d8e8e0] shadow-md p-5 lg:p-8">
+    <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-4 pb-24">
+      <div className="bg-[#f6faf6] rounded-2xl border border-[#d8e8e0] shadow-md p-4 lg:p-6">
         <CheckoutProgress currentStep={2} />
 
       <div className="mb-6 bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4">
