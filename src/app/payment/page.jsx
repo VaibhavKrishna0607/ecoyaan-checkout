@@ -42,7 +42,8 @@ export default function PaymentPage() {
   return (
     <>
     <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
-      <CheckoutProgress currentStep={3} />
+      <div className="bg-[#f7fdf9] rounded-2xl border border-[#d8e8e0] shadow-md p-5 lg:p-8">
+        <CheckoutProgress currentStep={3} />
 
       <div className="bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4 mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Review &amp; Pay</h1>
@@ -175,6 +176,7 @@ export default function PaymentPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
 

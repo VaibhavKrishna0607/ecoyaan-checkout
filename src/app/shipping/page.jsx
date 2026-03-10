@@ -128,7 +128,8 @@ export default function ShippingPage() {
   return (
     <>
     <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-8 pb-28">
-      <CheckoutProgress currentStep={2} />
+      <div className="bg-[#f7fdf9] rounded-2xl border border-[#d8e8e0] shadow-md p-5 lg:p-8">
+        <CheckoutProgress currentStep={2} />
 
       <div className="mb-6 bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4">
         <h1 className="text-2xl font-bold text-gray-800">Shipping Address</h1>
@@ -268,6 +269,7 @@ export default function ShippingPage() {
           </form>
         </div>
       )}
+      </div>
     </div>
 
       {/* Sticky bottom action bar */}

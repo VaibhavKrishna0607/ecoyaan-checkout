@@ -32,6 +32,7 @@ export default function OrderSuccessPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+      <div className="bg-[#f7fdf9] rounded-2xl border border-[#d8e8e0] shadow-md p-5 lg:p-8">
       {/* Success Banner */}
       <div className="text-center mb-6 bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-8">
         <div className="w-20 h-20 bg-[#d8f3dc] rounded-full flex items-center justify-center mx-auto mb-4 animate-pop">
@@ -113,6 +114,7 @@ export default function OrderSuccessPage() {
         >
           Continue Shopping
         </Link>
+      </div>
       </div>
     </div>
   );
