@@ -18,7 +18,7 @@
 
 body {
   background-color: var(--background);
-  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.75px, transparent 1px);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.12) 1.65px, transparent 1px);
 background-size: 22px 22px;
 background-position: 0 0, 10px 0, 10px -10px, 0 10px;
 }

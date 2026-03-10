@@ -8,16 +8,16 @@ import { CheckCircle2, Globe, Leaf } from 'lucide-react';
 
 export default function OrderSuccessPage() {
   const router = useRouter();
-  const { orderPlaced, cartData, shippingAddress } = useCheckout();
+  const { orderPlaced, cartData, shippingAddress, hydrated } = useCheckout();
 
   // Prevent direct access to success page without placing an order
   useEffect(() => {
-    if (!orderPlaced) {
+    if (hydrated && !orderPlaced) {
       router.replace('/cart');
     }
-  }, [orderPlaced, router]);
+  }, [orderPlaced, router, hydrated]);
 
-  if (!orderPlaced || !cartData || !shippingAddress) {
+  if (!hydrated || !orderPlaced || !cartData || !shippingAddress) {
     return null;
   }
 
@@ -95,7 +95,7 @@ export default function OrderSuccessPage() {
 
           {/* Eco message */}
           <div className="mt-5 bg-[#f0f9f4] rounded-lg p-4 flex items-start gap-3">
-            <Globe size={24} className="text-[#2d6a4f] flex-shrink-0 mt-0.5" />
+            <Globe size={24} className="text-[#2d6a4f] shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-medium text-[#2d6a4f]">Making the planet greener, one order at a time.</p>
               <p className="text-xs text-gray-500 mt-0.5">

@@ -8,16 +8,16 @@ import { Smartphone, CreditCard, Banknote, Lock, Tag } from 'lucide-react';
 
 export default function PaymentPage() {
   const router = useRouter();
-  const { cartData, shippingAddress, setOrderPlaced } = useCheckout();
+  const { cartData, shippingAddress, setOrderPlaced, hydrated } = useCheckout();
   const [selectedMethod, setSelectedMethod] = useState('upi');
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Guard: redirect if missing upstream data
   useEffect(() => {
-    if (!cartData || !shippingAddress) router.replace('/cart');
-  }, [cartData, shippingAddress, router]);
+    if (hydrated && (!cartData || !shippingAddress)) router.replace('/cart');
+  }, [cartData, shippingAddress, router, hydrated]);
 
-  if (!cartData || !shippingAddress) return null;
+  if (!hydrated || !cartData || !shippingAddress) return null;
 
   const subtotal = cartData.cartItems.reduce(
     (acc, item) => acc + item.product_price * item.quantity,
@@ -40,7 +40,7 @@ export default function PaymentPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
       <CheckoutProgress currentStep={3} />
 
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Review & Pay</h1>
@@ -148,41 +148,51 @@ export default function PaymentPage() {
               </div>
             </div>
 
-            <button
-              onClick={handlePay}
-              disabled={isProcessing}
-              className={`mt-6 w-full py-3 px-6 rounded-lg font-semibold text-base flex items-center justify-center gap-2 transition-all
-                ${isProcessing
-                  ? 'bg-[#40916c] text-white cursor-not-allowed opacity-75'
-                  : 'btn-primary cursor-pointer'
-                }`}
-            >
-              {isProcessing ? (
-                <>
-                  <svg className="animate-spin h-5 w-5 text-white" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
-                  </svg>
-                  Processing…
-                </>
-              ) : (
-                <><Lock size={15} className="mr-1" /> Pay Securely ₹{grandTotal.toLocaleString()}</>
-              )}
-            </button>
-
-            <p className="text-xs text-gray-400 text-center mt-2">
-              By placing this order you agree to our Terms of Service.
-            </p>
+            <div className="mt-4 pt-4 border-t border-[#d8e8e0] flex items-center gap-2 text-xs text-gray-400">
+              <Lock size={13} className="text-[#52b788] shrink-0" />
+              <span>256-bit SSL encrypted. Safe &amp; secure checkout.</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <button
-        onClick={() => router.push('/shipping')}
-        className="mt-4 text-sm text-gray-500 hover:text-[#2d6a4f] transition-colors"
-      >
-        ← Back to Shipping
-      </button>
+      {/* Sticky bottom action bar */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#d8e8e0] shadow-[0_-4px_20px_rgba(0,0,0,0.07)]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
+          <button
+            onClick={() => router.push('/shipping')}
+            className="py-3 px-5 rounded-xl border border-[#d8e8e0] text-gray-600 font-semibold text-sm hover:border-[#40916c] hover:text-[#2d6a4f] transition-colors shrink-0"
+          >
+            &larr; Back
+          </button>
+          <div className="flex-1" />
+          <div className="text-right hidden sm:block mr-2">
+            <p className="text-xs text-gray-500">Grand Total</p>
+            <p className="text-base font-bold text-[#2d6a4f]">&#8377;{grandTotal.toLocaleString()}</p>
+          </div>
+          <button
+            onClick={handlePay}
+            disabled={isProcessing}
+            className={`py-3 px-6 rounded-xl font-semibold text-sm flex items-center gap-2 shrink-0 transition-all
+              ${isProcessing
+                ? 'bg-[#40916c] text-white cursor-not-allowed opacity-75'
+                : 'btn-primary cursor-pointer'
+              }`}
+          >
+            {isProcessing ? (
+              <>
+                <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                </svg>
+                Processing&hellip;
+              </>
+            ) : (
+              <><Lock size={14} className="mr-0.5" /> Pay Securely</>
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
