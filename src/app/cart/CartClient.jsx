@@ -77,7 +77,7 @@ export default function CartClient({ initialCartData }) {
     return (
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <CheckoutProgress currentStep={1} />
-        <div className="text-center py-24">
+        <div className="animate-fade-in-up text-center py-24">
           <div className="w-24 h-24 bg-[#f0f9f4] rounded-full flex items-center justify-center mx-auto mb-5">
             <ShoppingCart size={40} className="text-[#52b788]" />
           </div>
@@ -206,7 +206,7 @@ export default function CartClient({ initialCartData }) {
   );
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-32 lg:pb-10">
+    <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-32 lg:pb-10">
       <CheckoutProgress currentStep={1} />
 
       <div className="flex items-baseline justify-between mb-6">

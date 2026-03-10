@@ -126,7 +126,7 @@ export default function ShippingPage() {
   const canContinue = !!selectedId && !formOpen;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 pb-28">
+    <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-8 pb-28">
       <CheckoutProgress currentStep={2} />
 
       <div className="mb-6">
@@ -145,8 +145,8 @@ export default function ShippingPage() {
                 'relative bg-white rounded-xl border-2 p-4 transition-all',
                 !formOpen ? 'cursor-pointer' : 'opacity-50 pointer-events-none',
                 selectedId === addr.id && !formOpen
-                  ? 'border-[#2d6a4f] shadow-md'
-                  : 'border-[#d8e8e0] hover:border-[#b7e0c8]',
+                  ? 'border-[#2d6a4f] bg-[#f0fcf6] shadow-[0_0_0_4px_rgba(45,106,79,0.07)]'
+                  : 'border-[#d8e8e0] bg-white hover:border-[#b7e0c8]',
               ].join(' ')}
             >
               {selectedId === addr.id && !formOpen && (

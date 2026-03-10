@@ -31,13 +31,13 @@ export default function OrderSuccessPage() {
   const orderId = useMemo(() => `ECO-${Math.floor(100000 + Math.random() * 900000)}`, []);
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
+    <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-12">
       {/* Success Banner */}
       <div className="text-center mb-8">
-        <div className="w-20 h-20 bg-[#d8f3dc] rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
+        <div className="w-20 h-20 bg-[#d8f3dc] rounded-full flex items-center justify-center mx-auto mb-4 animate-pop">
           <CheckCircle2 size={44} className="text-[#2d6a4f]" />
         </div>
-        <h1 className="text-3xl font-bold text-[#2d6a4f] mb-2">Order Successful!</h1>
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-[#2d6a4f] to-[#52b788] bg-clip-text text-transparent mb-2">Order Successful!</h1>
         <p className="text-gray-500">
           Thank you, <span className="font-medium text-gray-700">{shippingAddress.fullName}</span>! <Leaf size={16} className="inline text-[#2d6a4f] mb-0.5" />
         </p>
@@ -109,7 +109,7 @@ export default function OrderSuccessPage() {
       <div className="text-center mt-8">
         <Link
           href="/cart"
-          className="inline-block btn-primary py-3 px-8 rounded-lg font-semibold text-sm"
+          className="inline-block btn-primary py-3.5 px-10 rounded-xl font-semibold"
         >
           Continue Shopping
         </Link>

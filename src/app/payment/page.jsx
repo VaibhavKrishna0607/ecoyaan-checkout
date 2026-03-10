@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
 import CheckoutProgress from '@/components/CheckoutProgress';
-import { Smartphone, CreditCard, Banknote, Lock, Tag } from 'lucide-react';
+import { Smartphone, CreditCard, Banknote, Lock, Tag, MapPin } from 'lucide-react';
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -40,7 +40,7 @@ export default function PaymentPage() {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
+    <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
       <CheckoutProgress currentStep={3} />
 
       <h1 className="text-2xl font-bold text-gray-800 mb-6">Review & Pay</h1>
@@ -50,8 +50,8 @@ export default function PaymentPage() {
         <div className="flex-1 space-y-5">
           {/* Shipping Summary */}
           <div className="bg-white rounded-xl border border-[#d8e8e0] p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="font-semibold text-gray-800">Delivering to</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Delivering to</h2>
               <button
                 onClick={() => router.push('/shipping')}
                 className="text-xs text-[#2d6a4f] hover:underline font-medium"
@@ -59,13 +59,18 @@ export default function PaymentPage() {
                 Edit
               </button>
             </div>
-            <div className="text-sm text-gray-600 space-y-1">
-              <p className="font-medium text-gray-800">{shippingAddress.fullName}</p>
-              <p>{shippingAddress.email}</p>
-              <p>{shippingAddress.phone}</p>
-              <p>
-                {shippingAddress.city}, {shippingAddress.state} – {shippingAddress.pinCode}
-              </p>
+            <div className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-lg bg-[#f0f9f4] flex items-center justify-center shrink-0 mt-0.5">
+                <MapPin size={17} className="text-[#2d6a4f]" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-semibold text-gray-800 text-sm">{shippingAddress.fullName}</p>
+                {shippingAddress.address && (
+                  <p className="text-xs text-gray-500 mt-0.5 truncate">{shippingAddress.address}</p>
+                )}
+                <p className="text-xs text-gray-500">{shippingAddress.city}, {shippingAddress.state} &ndash; {shippingAddress.pinCode}</p>
+                <p className="text-xs text-gray-400 mt-1">{shippingAddress.phone} &middot; {shippingAddress.email}</p>
+              </div>
             </div>
           </div>
 
@@ -76,10 +81,10 @@ export default function PaymentPage() {
               {methodOptions.map((m) => (
                 <label
                   key={m.id}
-                  className={`flex items-center gap-4 p-3.5 rounded-lg border cursor-pointer transition-all
+                  className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200
                     ${selectedMethod === m.id
-                      ? 'border-[#2d6a4f] bg-[#f0f9f4]'
-                      : 'border-[#d8e8e0] hover:border-[#40916c]'
+                      ? 'border-[#2d6a4f] bg-[#f0fcf6] shadow-[0_2px_12px_rgba(45,106,79,0.12)]'
+                      : 'border-[#d8e8e0] bg-white hover:border-[#40916c] hover:shadow-sm'
                     }`}
                 >
                   <input
@@ -88,26 +93,38 @@ export default function PaymentPage() {
                     value={m.id}
                     checked={selectedMethod === m.id}
                     onChange={() => setSelectedMethod(m.id)}
-                    className="accent-[#2d6a4f] w-4 h-4 shrink-0"
+                    className="sr-only"
                   />
-                  <m.Icon size={20} className="text-[#2d6a4f] shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-800 text-sm">{m.label}</p>
-                    <p className="text-xs text-gray-500">{m.description}</p>
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-200
+                    ${selectedMethod === m.id ? 'bg-[#2d6a4f] text-white' : 'bg-[#f0f9f4] text-[#2d6a4f]'}`}>
+                    <m.Icon size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-gray-800 text-sm">{m.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{m.description}</p>
+                  </div>
+                  <div className={`w-5 h-5 rounded-full border-2 shrink-0 flex items-center justify-center transition-all duration-200
+                    ${selectedMethod === m.id ? 'border-[#2d6a4f] bg-[#2d6a4f]' : 'border-[#d8e8e0]'}`}>
+                    {selectedMethod === m.id && <div className="w-2 h-2 bg-white rounded-full" />}
                   </div>
                 </label>
               ))}
             </div>
 
             {/* Simulated input hint */}
-            {selectedMethod === 'card' && (
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300 text-sm text-gray-500 text-center">
-                Card input is simulated — click "Pay Securely" to complete.
-              </div>
-            )}
-            {selectedMethod === 'upi' && (
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-dashed border-gray-300 text-sm text-gray-500 text-center">
-                UPI is simulated — click "Pay Securely" to complete.
+            {(selectedMethod === 'card' || selectedMethod === 'upi') && (
+              <div className="mt-4 flex items-start gap-3 bg-[#f0f9f4] border border-[#d8e8e0] rounded-xl p-4">
+                <div className="w-8 h-8 rounded-full bg-[#d8f3dc] flex items-center justify-center shrink-0">
+                  <Lock size={14} className="text-[#2d6a4f]" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-[#2d6a4f]">
+                    {selectedMethod === 'upi' ? 'UPI payment ready' : 'Card payment ready'}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-0.5">
+                    This is a demo &mdash; click &ldquo;Pay Securely&rdquo; in the bar below to complete your order.
+                  </p>
+                </div>
               </div>
             )}
           </div>
