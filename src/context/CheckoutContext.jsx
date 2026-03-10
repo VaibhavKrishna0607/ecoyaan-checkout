@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const CheckoutContext = createContext(undefined);
 
@@ -38,25 +38,25 @@ export function CheckoutProvider({ children }) {
     setHydrated(true);
   }, []);
 
-  function setCartData(data) {
+  const setCartData = useCallback((data) => {
     _setCartData(data);
     persistStorage({ cartData: data });
-  }
+  }, []);
 
-  function setShippingAddress(addr) {
+  const setShippingAddress = useCallback((addr) => {
     _setShippingAddress(addr);
     persistStorage({ shippingAddress: addr });
-  }
+  }, []);
 
-  function setSavedAddresses(addrs) {
+  const setSavedAddresses = useCallback((addrs) => {
     _setSavedAddresses(addrs);
     persistStorage({ savedAddresses: addrs });
-  }
+  }, []);
 
-  function setOrderPlaced(val) {
+  const setOrderPlaced = useCallback((val) => {
     _setOrderPlaced(val);
     persistStorage({ orderPlaced: val });
-  }
+  }, []);
 
   return (
     <CheckoutContext.Provider
