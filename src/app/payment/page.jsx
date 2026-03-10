@@ -40,6 +40,7 @@ export default function PaymentPage() {
   ];
 
   return (
+    <>
     <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
       <CheckoutProgress currentStep={3} />
 
@@ -172,6 +173,7 @@ export default function PaymentPage() {
           </div>
         </div>
       </div>
+    </div>
 
       {/* Sticky bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#d8e8e0] shadow-[0_-4px_20px_rgba(0,0,0,0.07)]">
@@ -210,6 +212,6 @@ export default function PaymentPage() {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
