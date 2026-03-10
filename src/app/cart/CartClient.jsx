@@ -209,11 +209,11 @@ export default function CartClient({ initialCartData }) {
     <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-32 lg:pb-10">
       <CheckoutProgress currentStep={1} />
 
-      <div className="flex items-baseline justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">My Cart</h1>
           <p className="text-sm text-gray-400 mt-0.5">
-            {items.length} item{items.length !== 1 ? 's' : ''} - Free returns within 7 days
+            {items.length} item{items.length !== 1 ? 's' : ''} &middot; Free returns within 7 days
           </p>
         </div>
         <span className="hidden sm:flex items-center gap-1 text-xs font-medium text-[#2d6a4f] bg-[#f0f9f4] border border-[#b7e0c8] px-2.5 py-1 rounded-full">
@@ -300,7 +300,7 @@ export default function CartClient({ initialCartData }) {
             </div>
           ))}
 
-          <div className="mt-2">
+          <div className="mt-3 bg-white rounded-xl border border-[#d8e8e0] shadow-sm p-4">
             <div className="flex items-center gap-2 mb-3">
               <History size={18} className="text-gray-500" />
               <div>
@@ -314,7 +314,7 @@ export default function CartClient({ initialCartData }) {
               </div>
             </div>
             {savedItems.length === 0 ? (
-              <div className="bg-white rounded-xl border border-dashed border-[#d8e8e0] p-8 text-center text-sm text-gray-400">
+              <div className="rounded-xl border border-dashed border-[#d8e8e0] p-8 text-center text-sm text-gray-400">
                 Any items you Save for Later will appear here
               </div>
             ) : (

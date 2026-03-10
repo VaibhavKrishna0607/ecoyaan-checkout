@@ -44,7 +44,10 @@ export default function PaymentPage() {
     <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-8 pb-28">
       <CheckoutProgress currentStep={3} />
 
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Review & Pay</h1>
+      <div className="bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4 mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Review &amp; Pay</h1>
+        <p className="text-sm text-gray-400 mt-0.5">Almost there — confirm your order details and pay securely.</p>
+      </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Left column */}

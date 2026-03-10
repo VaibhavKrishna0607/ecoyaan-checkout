@@ -8,7 +8,7 @@ const STEPS = [
 
 export default function CheckoutProgress({ currentStep }) {
   return (
-    <div className="w-full max-w-sm mx-auto mb-10">
+    <div className="w-full max-w-sm mx-auto mb-8 bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-5">
       <div className="flex items-center justify-between relative">
         {/* background connector */}
         <div className="absolute top-5 left-5 right-5 h-[3px] bg-[#d8e8e0] rounded-full z-0" />

@@ -31,9 +31,9 @@ export default function OrderSuccessPage() {
   const orderId = useMemo(() => `ECO-${Math.floor(100000 + Math.random() * 900000)}`, []);
 
   return (
-    <div className="animate-fade-in-up max-w-2xl mx-auto px-4 sm:px-6 py-12">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-12">
       {/* Success Banner */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-6 bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-8">
         <div className="w-20 h-20 bg-[#d8f3dc] rounded-full flex items-center justify-center mx-auto mb-4 animate-pop">
           <CheckCircle2 size={44} className="text-[#2d6a4f]" />
         </div>
@@ -109,7 +109,7 @@ export default function OrderSuccessPage() {
       <div className="text-center mt-8">
         <Link
           href="/cart"
-          className="inline-block btn-primary py-3.5 px-10 rounded-xl font-semibold"
+          className="inline-block btn-primary py-3 px-8 rounded-lg font-semibold text-sm"
         >
           Continue Shopping
         </Link>
