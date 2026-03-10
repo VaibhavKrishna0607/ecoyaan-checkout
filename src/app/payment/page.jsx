@@ -123,7 +123,7 @@ export default function PaymentPage() {
                     {selectedMethod === 'upi' ? 'UPI payment ready' : 'Card payment ready'}
                   </p>
                   <p className="text-xs text-gray-500 mt-0.5">
-                    This is a demo &mdash; click &ldquo;Pay Securely&rdquo; in the bar below to complete your order.
+                     &ldquo;Pay Securely&rdquo; in the bar below to complete your order.
                   </p>
                 </div>
               </div>

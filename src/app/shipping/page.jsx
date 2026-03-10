@@ -190,7 +190,7 @@ export default function ShippingPage() {
       {!formOpen && (
         <button
           onClick={() => { setEditingId(null); setValues(EMPTY); setErrors({}); setTouched({}); setFormOpen(true); }}
-          className="w-full flex items-center justify-center gap-2 py-3 mb-4 rounded-xl border-2 border-dashed border-[#b7e0c8] text-[#2d6a4f] font-medium text-sm hover:bg-[#f0f9f4] hover:border-[#40916c] transition-all"
+          className="w-full flex items-center justify-center gap-2 py-3 mb-4 rounded-xl border-2 bg-white border-[#b7e0c8] text-[#2d6a4f] font-medium text-sm hover:bg-[#f0fcf6] hover:border-[#40916c] transition-all"
         >
           <Plus size={15} /> Add New Address
         </button>
