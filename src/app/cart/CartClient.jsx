@@ -19,6 +19,9 @@ export default function CartClient({ initialCartData }) {
   const [couponCode, setCouponCode] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponError, setCouponError] = useState('');
+  const [pinInput, setPinInput] = useState('');
+  const [pinDelivery, setPinDelivery] = useState(null);
+  const [pinError, setPinError] = useState('');
 
   const { shipping_fee } = initialCartData;
   const subtotal = items.reduce((acc, i) => acc + i.product_price * i.quantity, 0);
@@ -61,6 +64,26 @@ export default function CartClient({ initialCartData }) {
 
   function removeSaved(id) {
     setSavedItems(prev => prev.filter(i => i.product_id !== id));
+  }
+
+  function calcDeliveryDate() {
+    const days = 5 + Math.floor(Math.random() * 3);
+    let added = 0;
+    const cursor = new Date();
+    while (added < days) {
+      cursor.setDate(cursor.getDate() + 1);
+      if (cursor.getDay() !== 0 && cursor.getDay() !== 6) added++;
+    }
+    return cursor.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  function checkPinDelivery() {
+    if (!/^\d{6}$/.test(pinInput.trim())) {
+      setPinError('Enter a valid 6-digit PIN code.');
+      return;
+    }
+    setPinError('');
+    setPinDelivery({ pin: pinInput.trim(), date: calcDeliveryDate() });
   }
 
   function applyCoupon() {
@@ -136,6 +159,49 @@ export default function CartClient({ initialCartData }) {
             <p className="text-[11px] text-gray-400 mt-1.5">
               Hint: try <span className="font-mono font-semibold text-[#2d6a4f]">ECO10</span> for 10% off
             </p>
+          </>
+        )}
+      </div>
+
+      <div className="bg-white rounded-xl border border-[#d8e8e0] p-5 shadow-sm">
+        <h2 className="font-bold text-gray-800 text-sm uppercase tracking-wide mb-3 flex items-center gap-2">
+          <Truck size={14} className="text-[#2d6a4f]" /> Check Delivery
+        </h2>
+        {pinDelivery ? (
+          <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg px-3 py-2.5">
+            <div>
+              <p className="text-sm font-semibold text-green-700">Delivers to {pinDelivery.pin} ✓</p>
+              <p className="text-xs text-green-600 mt-0.5">Arriving by {pinDelivery.date}</p>
+            </div>
+            <button
+              onClick={() => { setPinDelivery(null); setPinInput(''); }}
+              className="text-xs text-gray-400 hover:text-red-500 transition-colors"
+            >
+              Change
+            </button>
+          </div>
+        ) : (
+          <>
+            <div className="flex rounded-lg overflow-hidden border border-[#d8e8e0] focus-within:border-[#40916c] transition-colors">
+              <input
+                value={pinInput}
+                onChange={e => { setPinInput(e.target.value.replace(/\D/g, '').slice(0, 6)); setPinError(''); }}
+                onKeyDown={e => e.key === 'Enter' && checkPinDelivery()}
+                placeholder="Enter 6-digit PIN code"
+                maxLength={6}
+                inputMode="numeric"
+                className="flex-1 px-3 py-1.5 text-sm bg-white outline-none placeholder-gray-400"
+              />
+              <button
+                onClick={checkPinDelivery}
+                className="btn-primary px-2.5 py-3 text-sm font-bold rounded-none"
+              >
+                Check
+              </button>
+            </div>
+            {pinError && (
+              <p className="text-xs text-red-500 mt-1.5">{pinError}</p>
+            )}
           </>
         )}
       </div>
