@@ -4,7 +4,13 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
 import CheckoutProgress from '@/components/CheckoutProgress';
-import { AlertTriangle, Plus, MapPin, Pencil, Trash2, Check, X } from 'lucide-react';
+import { AlertTriangle, Plus, MapPin, Pencil, Trash2, Check, X, Home, Briefcase } from 'lucide-react';
+
+const ADDRESS_TYPES = [
+  { value: 'home', label: 'Home', Icon: Home },
+  { value: 'office', label: 'Office', Icon: Briefcase },
+  { value: 'other', label: 'Other', Icon: MapPin },
+];
 
 const INDIA_STATES = [
   'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
@@ -15,7 +21,7 @@ const INDIA_STATES = [
   'Delhi', 'Jammu & Kashmir', 'Ladakh', 'Chandigarh', 'Puducherry',
 ];
 
-const EMPTY = { fullName: '', email: '', phone: '', address: '', pinCode: '', city: '', state: '' };
+const EMPTY = { fullName: '', email: '', phone: '', address: '', pinCode: '', city: '', state: '', type: 'home' };
 
 function validate(v) {
   const e = {};
@@ -162,7 +168,12 @@ export default function ShippingPage() {
                   className={['mt-0.5 shrink-0', selectedId === addr.id && !formOpen ? 'text-[#2d6a4f]' : 'text-gray-400'].join(' ')}
                 />
                 <div className="flex-1 min-w-0 pr-6">
-                  <p className="font-semibold text-gray-800 text-sm">{addr.fullName}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-semibold text-gray-800 text-sm">{addr.fullName}</p>
+                    {addr.type && (
+                      <span className="text-[10px] font-medium text-[#2d6a4f] bg-[#f0f9f4] border border-[#d8e8e0] px-1.5 py-0.5 rounded-full capitalize">{addr.type}</span>
+                    )}
+                  </div>
                   <p className="text-xs text-gray-500 mt-0.5 truncate">{addr.address}</p>
                   <p className="text-xs text-gray-500">{addr.city}, {addr.state} &ndash; {addr.pinCode}</p>
                   <p className="text-xs text-gray-400 mt-0.5">{addr.phone} &middot; {addr.email}</p>
@@ -200,7 +211,7 @@ export default function ShippingPage() {
       {/* Address form */}
       {formOpen && (
         <div className="bg-white rounded-xl border border-[#d8e8e0] p-6 shadow-sm mb-4">
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-gray-800">{editingId ? 'Edit Address' : 'New Address'}</h2>
             {savedAddresses.length > 0 && (
               <button onClick={closeForm} className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded hover:bg-gray-100">
@@ -209,6 +220,23 @@ export default function ShippingPage() {
             )}
           </div>
           <form onSubmit={saveAddress} noValidate>
+            {/* Address type selector */}
+            <div className="flex gap-2 mb-5">
+              {ADDRESS_TYPES.map(({ value, label, Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => handleChange('type', value)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-sm font-medium transition-all ${
+                    values.type === value
+                      ? 'border-[#2d6a4f] bg-[#f0f9f4] text-[#2d6a4f]'
+                      : 'border-[#d8e8e0] text-gray-500 hover:border-[#40916c] hover:text-[#2d6a4f]'
+                  }`}
+                >
+                  <Icon size={13} /> {label}
+                </button>
+              ))}
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
                 <FormField label="Full Name" id="fullName" placeholder="e.g. Priya Sharma"

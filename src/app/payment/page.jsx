@@ -1,16 +1,28 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCheckout } from '@/context/CheckoutContext';
 import CheckoutProgress from '@/components/CheckoutProgress';
-import { Smartphone, CreditCard, Banknote, Lock, Tag, MapPin } from 'lucide-react';
+import { Smartphone, CreditCard, Banknote, Lock, Tag, MapPin, Truck } from 'lucide-react';
 
 export default function PaymentPage() {
   const router = useRouter();
   const { cartData, shippingAddress, setOrderPlaced, hydrated } = useCheckout();
   const [selectedMethod, setSelectedMethod] = useState('upi');
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // Stable delivery date estimate: 5–7 business days from now
+  const deliveryDate = useMemo(() => {
+    const BDAYS = 5 + Math.floor(Math.random() * 3);
+    let added = 0;
+    const cursor = new Date();
+    while (added < BDAYS) {
+      cursor.setDate(cursor.getDate() + 1);
+      if (cursor.getDay() !== 0 && cursor.getDay() !== 6) added++;
+    }
+    return cursor.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  }, []);
 
   // Guard: redirect if missing upstream data
   useEffect(() => {
@@ -69,12 +81,21 @@ export default function PaymentPage() {
                 <MapPin size={17} className="text-[#2d6a4f]" />
               </div>
               <div className="min-w-0">
-                <p className="font-semibold text-gray-800 text-sm">{shippingAddress.fullName}</p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <p className="font-semibold text-gray-800 text-sm">{shippingAddress.fullName}</p>
+                  {shippingAddress.type && (
+                    <span className="text-[10px] font-medium text-[#2d6a4f] bg-[#f0f9f4] border border-[#d8e8e0] px-1.5 py-0.5 rounded-full capitalize">{shippingAddress.type}</span>
+                  )}
+                </div>
                 {shippingAddress.address && (
                   <p className="text-xs text-gray-500 mt-0.5 truncate">{shippingAddress.address}</p>
                 )}
                 <p className="text-xs text-gray-500">{shippingAddress.city}, {shippingAddress.state} &ndash; {shippingAddress.pinCode}</p>
                 <p className="text-xs text-gray-400 mt-1">{shippingAddress.phone} &middot; {shippingAddress.email}</p>
+                <div className="mt-2.5 pt-2.5 border-t border-[#f0f4f2] flex items-center gap-1.5 text-xs text-[#2d6a4f]">
+                  <Truck size={12} className="shrink-0" />
+                  <span>Arriving by <span className="font-semibold">{deliveryDate}</span></span>
+                </div>
               </div>
             </div>
           </div>
