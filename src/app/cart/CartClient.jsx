@@ -206,6 +206,7 @@ export default function CartClient({ initialCartData }) {
   );
 
   return (
+    <>
     <div className="animate-fade-in-up max-w-5xl mx-auto px-4 sm:px-6 py-4 pb-28 lg:pb-6">
       <div className="bg-[#f6faf6] rounded-2xl border border-[#d8e8e0] shadow-md p-4 lg:p-6">
         <CheckoutProgress currentStep={1} />
@@ -364,6 +365,11 @@ export default function CartClient({ initialCartData }) {
           </div>
         </div>
       </div>
+
+      {/* Mobile: coupon + order summary (hidden on desktop, desktop uses sidebar) */}
+      <div className="lg:hidden mt-4">
+        {SummaryPanel()}
+      </div>
       </div>
 
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#d8e8e0] shadow-[0_-4px_24px_rgba(0,0,0,0.08)] px-4 py-3">
@@ -383,5 +389,6 @@ export default function CartClient({ initialCartData }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
