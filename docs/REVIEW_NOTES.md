@@ -28,7 +28,7 @@
 | `shipping/page.jsx` | Client | Form state, validation, router |
 | `payment/page.jsx` | Client | Radio state, async pay handler, router |
 | `order-success/page.jsx` | Client | Reads context, `useMemo` for orderId |
-| `Navbar.jsx` | Server | Static UI, no interactivity |
+| `Navbar.jsx` | use client(useState+useCheckout) | Static UI, no interactivity |
 | `CheckoutProgress.jsx` | Server | Props-only, no hooks |
 
 ---
@@ -244,3 +244,87 @@ All four are written to localStorage immediately inside each setter, and rehydra
 | Save-for-later items | `CartClient` local `useState` | Same |
 
 **This is intentional.** The cart is the entry point of the flow and always loads fresh mock data. Persisting cart-level state would require initialising `CartClient` from localStorage instead of `getMockCartData()` — a deliberate trade-off given the "simplified" scope of this project.
+
+---
+
+## 6. Changes Made (March 11, 2026)
+
+### Round 5: Card Boxes Around All Sections
+
+**What was asked:** Wrap every component on every page in a visible card box — including the stepper circles.
+
+**Changes made:**
+
+#### `src/components/CheckoutProgress.jsx`
+- Entire stepper wrapped in `bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-5` card.
+
+#### `src/app/cart/CartClient.jsx`
+- "My Cart" title section wrapped in `bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4` card.
+- "Saved for Later" section wrapped in `bg-white rounded-xl border border-[#d8e8e0] shadow-sm p-4` card.
+
+#### `src/app/shipping/page.jsx`
+- "Shipping Address" title section wrapped in `bg-white rounded-xl border border-[#d8e8e0] shadow-sm px-5 py-4` card.
+
+#### `src/app/payment/page.jsx`
+- "Review & Pay" title section wrapped in card; added subtitle "Almost there — confirm your order details and pay securely."
+
+#### `src/app/order-success/page.jsx`
+- Success banner (icon + heading + email line) wrapped in `bg-white rounded-2xl border border-[#d8e8e0] shadow-sm px-6 py-8` card.
+
+---
+
+### Round 6: Single Outer Wrapper Box + Colour + Padding
+
+**What was asked:** Put every page's entire content (stepper + all sections) inside one single large background box. Apply `bg-[#f6faf6]` to all wrapper boxes. Reduce padding to avoid unnecessary scrolling.
+
+**Changes made — all 4 pages:**
+- Wrapped all inner content with `bg-[#f6faf6] rounded-2xl border border-[#d8e8e0] shadow-md p-4 lg:p-6`.
+- The outer container `py-8` reduced to `py-4`; bottom padding trimmed across all pages.
+- Individual section cards remain white inside the tinted outer box, giving a clear layered visual hierarchy.
+- `src/app/globals.css`: added `overflow-x: hidden` to `body` — fixes horizontal scroll on mobile that was clipping the navbar.
+
+---
+
+### Round 7: Mobile Fixes
+
+**Three issues identified and fixed:**
+
+#### 1. Coupon/summary panel invisible on mobile (`src/app/cart/CartClient.jsx`)
+- The `SummaryPanel` was only rendered inside `.hidden lg:block` — completely invisible on mobile.
+- Added a `lg:hidden` section below the items list that renders `SummaryPanel()` — coupon input and order summary are now visible on mobile.
+
+#### 2. Sticky cart button floating mid-page (`src/app/cart/CartClient.jsx`)
+- The `fixed bottom-0` bar was a *child* of the `animate-fade-in-up` div. CSS `transform` (from the entrance animation) creates a new containing block — `position:fixed` children position relative to it, not the viewport.
+- Fixed by wrapping the return in a React Fragment (`<>`) — same pattern already used on shipping and payment pages.
+
+#### 3. Action bar buttons not stacked on mobile (`src/app/shipping/page.jsx`, `src/app/payment/page.jsx`)
+- Buttons in both sticky bars were `flex` (always side-by-side).
+- Changed inner container to `flex-col sm:flex-row` — on mobile, Back stacks above Continue/Pay (each full-width); on `sm:+` they revert to horizontal layout.
+
+#### 4. Navbar appearing cut off on mobile (`src/app/globals.css`)
+- Overflowing elements caused horizontal scroll that shifted the entire page including the navbar.
+- Fixed with `overflow-x: hidden` on `body`.
+
+---
+
+## 7. Final Checklist
+
+| Objective | Status |
+|---|---|
+| Cart → Shipping → Payment → Order Success flow | ✅ |
+| Route guards (hydration-aware) on all post-cart pages | ✅ |
+| SSR cart data fetch (Server Component) | ✅ |
+| Form validation: 7 fields, blur + submit, touched map | ✅ |
+| Multi-address: add, edit, delete, select | ✅ |
+| localStorage persistence (`ecoyaan_checkout_v1`) | ✅ |
+| Sticky action bars on all pages | ✅ |
+| Mobile: stacked buttons in action bars | ✅ |
+| Mobile: coupon panel visible on cart page | ✅ |
+| Mobile: fixed sticky bar (Fragment pattern) on all pages | ✅ |
+| Mobile: navbar not clipped (`overflow-x: hidden`) | ✅ |
+| Animated entrance (`fadeInUp`) on all pages | ✅ |
+| Animated stepper with glow + gradient connector | ✅ |
+| Card boxes on all sections + single outer wrapper box | ✅ |
+| `animate-pop` success icon + gradient heading on order success | ✅ |
+| `useCallback` on all context setters (no infinite loop) | ✅ |
+| `hydrated` flag prevents premature redirects on reload | ✅ |
