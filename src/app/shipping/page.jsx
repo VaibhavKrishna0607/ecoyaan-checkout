@@ -274,11 +274,11 @@ export default function ShippingPage() {
 
       {/* Sticky bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#d8e8e0] shadow-[0_-4px_20px_rgba(0,0,0,0.07)]">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex gap-3">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => router.push('/cart')}
-            className="py-3 px-5 rounded-xl border border-[#d8e8e0] text-gray-600 font-semibold text-sm hover:border-[#40916c] hover:text-[#2d6a4f] transition-colors shrink-0"
+            className="w-full sm:w-auto py-3 px-5 rounded-xl border border-[#d8e8e0] text-gray-600 font-semibold text-sm hover:border-[#40916c] hover:text-[#2d6a4f] transition-colors"
           >
             &larr; Back
           </button>
@@ -286,7 +286,7 @@ export default function ShippingPage() {
             type="button"
             onClick={handleContinue}
             disabled={!canContinue}
-            className="flex-1 btn-primary py-3 px-4 rounded-xl font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+            className="w-full sm:flex-1 btn-primary py-3 px-4 rounded-xl font-semibold text-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
           >
             Continue to Payment &rarr;
           </button>

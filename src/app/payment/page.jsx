@@ -182,14 +182,14 @@ export default function PaymentPage() {
 
       {/* Sticky bottom action bar */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#d8e8e0] shadow-[0_-4px_20px_rgba(0,0,0,0.07)]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
           <button
             onClick={() => router.push('/shipping')}
-            className="py-3 px-5 rounded-xl border border-[#d8e8e0] text-gray-600 font-semibold text-sm hover:border-[#40916c] hover:text-[#2d6a4f] transition-colors shrink-0"
+            className="w-full sm:w-auto py-3 px-5 rounded-xl border border-[#d8e8e0] text-gray-600 font-semibold text-sm hover:border-[#40916c] hover:text-[#2d6a4f] transition-colors"
           >
             &larr; Back
           </button>
-          <div className="flex-1" />
+          <div className="hidden sm:flex sm:flex-1" />
           <div className="text-right hidden sm:block mr-2">
             <p className="text-xs text-gray-500">Grand Total</p>
             <p className="text-base font-bold text-[#2d6a4f]">&#8377;{grandTotal.toLocaleString()}</p>
@@ -197,7 +197,7 @@ export default function PaymentPage() {
           <button
             onClick={handlePay}
             disabled={isProcessing}
-            className={`py-3 px-6 rounded-xl font-semibold text-sm flex items-center gap-2 shrink-0 transition-all
+            className={`w-full sm:w-auto py-3 px-6 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-all
               ${isProcessing
                 ? 'bg-[#40916c] text-white cursor-not-allowed opacity-75'
                 : 'btn-primary cursor-pointer'
