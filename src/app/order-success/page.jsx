@@ -4,7 +4,7 @@ import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useCheckout } from '@/context/CheckoutContext';
-import { CheckCircle2, Globe, Leaf } from 'lucide-react';
+import { CheckCircle2, Globe, Leaf, Truck } from 'lucide-react';
 
 export default function OrderSuccessPage() {
   const router = useRouter();
@@ -29,6 +29,23 @@ export default function OrderSuccessPage() {
 
   // Generate a stable order ID — useMemo prevents re-generating on re-renders
   const orderId = useMemo(() => `ECO-${Math.floor(100000 + Math.random() * 900000)}`, []);
+  const deliveryDate = useMemo(() => {
+    const businessDays = 5 + Math.floor(Math.random() * 3);
+    let added = 0;
+    const cursor = new Date();
+
+    while (added < businessDays) {
+      cursor.setDate(cursor.getDate() + 1);
+      if (cursor.getDay() !== 0 && cursor.getDay() !== 6) added += 1;
+    }
+
+    return cursor.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+  }, []);
 
   return (
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-4">
@@ -91,6 +108,13 @@ export default function OrderSuccessPage() {
               {shippingAddress.address && <p>{shippingAddress.address}</p>}
               <p>{shippingAddress.city}, {shippingAddress.state} – {shippingAddress.pinCode}</p>
               <p>{shippingAddress.phone}</p>
+            </div>
+            <div className="mt-3 bg-[#f0f9f4] rounded-lg border border-[#d8e8e0] px-3 py-2.5 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Truck size={14} className="text-[#2d6a4f]" />
+                <span>Estimated Delivery</span>
+              </div>
+              <span className="text-sm font-semibold text-[#2d6a4f]">{deliveryDate}</span>
             </div>
           </div>
 
